@@ -28,13 +28,27 @@ class User
       return true;
   }
 
-  public function getAllUsers()
+  public function getAllUsers($limit, $offset,$role,$status)
   {
-    $stmt = $this->db->prepare( "SELECT * FROM users WHERE role = :role");
-    $stmt->execute([':role' => 'user']);
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $users;
+    $stmt = $this->db->prepare(
+      "SELECT * FROM users
+       WHERE role LIKE :role AND status LIKE :status
+      LIMIT :limit OFFSET :offset"
+    );
 
+    $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+     $stmt->bindValue(':role', $role);
+    $stmt->bindValue(':status',$status);
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getUserCount()
+  {
+    $stmt = $this->db->query("SELECT COUNT(*) FROM users");
+    return $stmt->fetchColumn();
   }
 
   public function updateUser($id,$name)

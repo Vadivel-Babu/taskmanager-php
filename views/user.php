@@ -2,12 +2,26 @@
  include_once __DIR__ . "/../config/config.php";
  include_once __DIR__ . "/partials/header.php";
  include_once __DIR__ . "/../core/User.php";
- $user = new User();
- $allusers = $user->getAllUsers();
  if($_SESSION['role'] !== 'admin'){
  header("Location: dashboard.php");
  exit;
 }
+ $user = new User();
+ $role = $_GET['role'] ?? '';
+$status = $_GET['status'] ?? '';
+$role = $role === '' ? '%' : $role;
+$status = $status === '' ? '%' : $status;
+$limit = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+$page = max($page, 1);
+
+$offset = ($page - 1) * $limit;
+
+$totalUsers = $user->getUserCount();
+$totalPages = ceil($totalUsers / $limit);
+
+$allusers = $user->getAllUsers($limit, $offset,$role,$status);
 
 ?>
 
@@ -16,13 +30,34 @@
    <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
    <div class="dashboard__content ">
      <h1 class="text-center"> User</h1>
+     <form method="GET" class="row g-2 mb-3">
+       <div class="col-md-4">
+         <select name="role" class="form-select">
+           <option value="">All Roles</option>
+           <option value="admin">Admin</option>
+           <option value="user">User</option>
+         </select>
+       </div>
+
+       <div class="col-md-4">
+         <select name="status" class="form-select">
+           <option value="">All Status</option>
+           <option value="active">Active</option>
+           <option value="inactive">Inactive</option>
+         </select>
+       </div>
+
+       <div class="col-md-4">
+         <button class="btn btn-primary">Filter</button>
+       </div>
+     </form>
      <table class="table container">
        <thead>
          <tr>
            <th scope="col">No</th>
            <th scope="col">Name</th>
            <th scope="col">Email</th>
-           <th scope="col">Active</th>
+           <th scope="col">Status</th>
            <th scope="col">Action</th>
          </tr>
        </thead>
@@ -33,7 +68,9 @@
            <th scope="row"><?= $no ?></th>
            <td><?= e($user['name']) ?></td>
            <td><?= e($user['email']) ?></td>
-           <td><span class="badge text-bg-success">active</span></td>
+           <td><span
+               class="badge <?=  $user['status'] === 'active' ? "text-bg-success": "text-bg-danger" ?>"><?= e($user['status']) ?></span>
+           </td>
            <td>
              <button type="button" class="btn btn-danger delete-btn" data-id="<?= $user['id'] ?>">Delete</button>
            </td>
@@ -43,5 +80,22 @@
 
        </tbody>
      </table>
+     <nav aria-label="Page navigation example">
+       <ul class="pagination">
+         <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+           <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
+         </li>
+         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+         <li class="page-item <?= $page == $i ? 'active' : '' ?>">
+           <a class="page-link"
+             href="?page=<?= $i ?>&role=<?= urlencode($role) ?>&status=<?= urlencode($status) ?>"><?= $i ?></a>
+         </li>
+         <?php endfor; ?>
+         <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
+           <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
+         </li>
+
+       </ul>
+     </nav>
    </div>
  </div>

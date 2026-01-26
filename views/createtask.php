@@ -9,7 +9,7 @@
  exit;
 }
  $users = new User();
- $allUsers = $users->getAllUsers();
+ $allUsers = $users->getAllUsers($limit ='', $offset = '',$role = 'user',$status='');
  
  if($_SERVER["REQUEST_METHOD"] === 'POST'){
     

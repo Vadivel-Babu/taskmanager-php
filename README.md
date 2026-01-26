@@ -30,7 +30,7 @@ This project demonstrates real-world backend concepts commonly expected from **j
 ### 📝 Task Management
 - Create, update, delete tasks
 - Assign tasks to users
-- Task status management (Pending / In Progress / Completed)
+- Task status management (Pending/ Completed)
 - AJAX-based task deletion (no page reload)
 
 ### 📊 User Status Tracking
@@ -48,7 +48,5 @@ This project demonstrates real-world backend concepts commonly expected from **j
 - **AJAX**
 - **Prepared Statements** (SQL Injection protection)
 - **Bootstrap**
----
 
-## 📁 Project Structure (Simplified)
 

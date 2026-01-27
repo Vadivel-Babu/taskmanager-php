@@ -18,7 +18,7 @@ $page = max($page, 1);
 
 $offset = ($page - 1) * $limit;
 
-$totalUsers = $user->getUserCount();
+$totalUsers = $user->getUserCount($role,$status);
 $totalPages = ceil($totalUsers / $limit);
 
 $allusers = $user->getAllUsers($limit, $offset,$role,$status);
@@ -28,9 +28,9 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
 
  <div class="dashboard">
    <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
-   <div class="dashboard__content ">
+   <div class="dashboard__content">
      <h1 class="text-center"> User</h1>
-     <form method="GET" class="row g-2 mb-3">
+     <form method="GET" class="row g-2 mb-3 container mx-auto my-0">
        <div class="col-md-4">
          <select name="role" class="form-select">
            <option value="">All Roles</option>
@@ -51,6 +51,7 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
          <button class="btn btn-primary">Filter</button>
        </div>
      </form>
+     <?php if($allusers): ?>
      <table class="table container">
        <thead>
          <tr>
@@ -80,8 +81,11 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
 
        </tbody>
      </table>
-     <nav aria-label="Page navigation example">
-       <ul class="pagination">
+     <?php else: ?>
+     <h2 class="text-center my-5">User Not Found</h2>
+     <?php endif; ?>
+     <nav aria-label="Page navigation example ">
+       <ul class="pagination container mx-auto my-0">
          <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
            <a class="page-link" href="?page=<?= $page - 1 ?>">Previous</a>
          </li>
@@ -94,7 +98,6 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
          <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
            <a class="page-link" href="?page=<?= $page + 1 ?>">Next</a>
          </li>
-
        </ul>
      </nav>
    </div>

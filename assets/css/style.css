@@ -32,6 +32,31 @@
 .dashboard__content {
   padding: 20px;
   flex: 0.9;
-
   background-color: aliceblue;
+}
+.stats {
+  display: flex;
+  padding: 20px;
+  justify-content: space-around;
+}
+.stat_card {
+  background-color: rgb(0, 0, 0);
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: white;
+}
+.stat_card:nth-child(2) {
+  background-color: red;
+}
+.stat_card:nth-child(3) {
+  background-color: rgb(0, 26, 255);
+}
+.stat_card > p {
+  font-size: 25px;
+  font-weight: 500;
+}
+.stat_card > span {
+  font-size: 35px;
+  font-weight: bold;
+  text-align: center;
 }

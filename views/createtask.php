@@ -9,7 +9,7 @@
  exit;
 }
  $users = new User();
- $allUsers = $users->getAllUsers($limit ='', $offset = '',$role = 'user',$status='');
+ $allUsers = $users->getUserForDropdown('user');
  
  if($_SERVER["REQUEST_METHOD"] === 'POST'){
     

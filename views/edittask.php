@@ -13,7 +13,7 @@ if(isset($_GET['id'])){
    $currenttask = $task->getTask($id);
 }
  $users = new User();
- $allUsers = $users->getAllUsers();
+ $allUsers = $users->getUserForDropdown('user');
  $currentuser = $users->getUser($currenttask["assigned_to"]);
  
  if($_SERVER["REQUEST_METHOD"] === 'POST'){

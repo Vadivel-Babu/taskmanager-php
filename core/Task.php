@@ -11,9 +11,13 @@ class Task
         $this->db = $database->conn;
     }
 
-    public function getAll()
+    public function getAll($limit, $offset,$status)
     {
-        $stmt = $this->db->query("SELECT * FROM tasks");
+        $stmt = $this->db->prepare("SELECT * FROM tasks WHERE status LIKE :status LIMIT :limit OFFSET :offset");
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);    
+        $stmt->bindValue(':status',$status);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -40,6 +44,13 @@ class Task
         );
         $stmt->execute([$taskId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getTaskCount($status)
+    {
+    $stmt = $this->db->prepare("SELECT COUNT(*) FROM tasks WHERE status LIKE :status");
+    $stmt->execute([':status' => $status]);
+    return $stmt->fetchColumn();
     }
 
     public function updateTask($title,$description,$assigned,$status,$id)

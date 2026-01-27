@@ -45,9 +45,18 @@ class User
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getUserCount()
+  public function getUserForDropdown($role)
   {
-    $stmt = $this->db->query("SELECT COUNT(*) FROM users");
+     $stmt = $this->db->prepare("SELECT * FROM users WHERE role = :role");
+    $stmt->execute([":role" => $role]);
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $users;
+  }
+
+  public function getUserCount($role,$status)
+  {
+    $stmt = $this->db->prepare("SELECT COUNT(*) FROM users WHERE role LIKE :role AND status LIKE :status");
+    $stmt->execute([":role" => $role,":status"=>$status]);
     return $stmt->fetchColumn();
   }
 

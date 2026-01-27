@@ -51,4 +51,4 @@ This project demonstrates real-world backend concepts commonly expected from **j
 - **JavaScript**
 - **AJAX**
 - **Prepared Statements** (SQL Injection protection)
-- **Bootstrap**
+- # **Bootstrap**

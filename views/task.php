@@ -5,19 +5,21 @@
 
  $tasks = new Task();
  $status = $_GET['status'] ?? '';
+$priority = $_GET['priority'] ?? '';
 $status = $status === '' ? '%' : $status;
+$priority = $priority === '' ? '%' : $priority;
 $alltasks  = [];
 $limit = 5;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
-$totalTasks = $tasks->getTaskCount($status);
+$totalTasks = $tasks->getTaskCount($status,$priority);
 $totalPages = ceil($totalTasks / $limit);
  if($_SESSION['role'] == 'admin'){
-   $alltasks = $tasks->getAll($limit,$offset,$status);
+   $alltasks = $tasks->getAll($limit,$offset,$status,$priority);
  } else {
   $alltasks = $tasks->getByUser($_SESSION['user_id']);
-  $alltasks = $tasks->getAll($limit, $offset,$status);
+  $alltasks = $tasks->getAll($limit, $offset,$status,$priority);
  }
 
 
@@ -30,6 +32,14 @@ $totalPages = ceil($totalTasks / $limit);
   <div class="dashboard__content ">
     <h1 class="text-center"> Task</h1>
     <form method="GET" class="row g-2 mb-3 container mx-auto my-0">
+      <div class="col-md-4">
+        <select name="priority" class="form-select">
+          <option value="">All </option>
+          <option value="low">low</option>
+          <option value="medium">medium</option>
+          <option value="high">high</option>
+        </select>
+      </div>
       <div class="col-md-4">
         <select name="status" class="form-select">
           <option value="">All Status</option>
@@ -50,7 +60,7 @@ $totalPages = ceil($totalTasks / $limit);
           <th scope="col">Description</th>
           <th scope="col">Status</th>
           <th scope="col">
-            <?=  $_SESSION['role'] === 'user' ? 'Priority' : '' ?>
+            Priority
           </th>
           <th scope="col">Action</th>
         </tr>
@@ -66,10 +76,8 @@ $totalPages = ceil($totalTasks / $limit);
               class="badge <?= $task['status'] === 'completed' ? "text-bg-success" : "text-bg-warning" ?>"><?= e($task['status']) ?></span>
           </td>
           <td>
-            <?php if($_SESSION['role'] === 'user'): ?>
             <span
-              class="badge <?= $task['priority'] === 'low' ? "text-bg-success" : "text-bg-warning" ?>"><?= e($task['priority']) ?></span>
-            <?php endif; ?>
+              class="badge <?= $task['priority'] === 'low' ? "text-bg-success" : ($task['priority'] === 'high' ? "text-bg-danger" :"text-bg-warning") ?>"><?= e($task['priority']) ?></span>
           </td>
           <td>
             <a href="edittask.php?id=<?= $task['id'] ?>" class="btn btn-dark" role="button">Edit</a>
@@ -93,7 +101,8 @@ $totalPages = ceil($totalTasks / $limit);
         </li>
         <?php for ($i = 1; $i <= $totalPages; $i++): ?>
         <li class="page-item <?= $page == $i ? 'active' : '' ?>">
-          <a class="page-link" href="?page=<?= $i ?>&status=<?= urlencode($status) ?>"><?= $i ?></a>
+          <a class="page-link"
+            href="?page=<?= $i ?>&status=<?= urlencode($status) ?>&priority=<?= urlencode($priority) ?>"><?= $i ?></a>
         </li>
         <?php endfor; ?>
         <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">

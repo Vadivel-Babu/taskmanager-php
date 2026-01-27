@@ -26,12 +26,13 @@ if(isset($_GET['id'])){
     $description = trim($_POST['description'] ?? '');
     $assigned  = trim($_POST['assigned'] ?? '');
     $status  = trim($_POST['status'] ?? '');
+    $priority  = trim($_POST['priority'] ?? '');
 
     // Validation
     if ($title === '' || $description === '') {
         $error = 'Please enter all fields';
     } else {
-        if ($task->updateTask($title,$description,$assigned,$status,$id)) {
+        if ($task->updateTask($title,$description,$assigned,$status,$id, $priority)) {
             header("Location: task.php");
             exit;
         }
@@ -74,8 +75,15 @@ if(isset($_GET['id'])){
              <?php if($currenttask['status'] === "completed"): ?>
              <option value="pending">pending</option>
              <?php endif; ?>
-
-
+           </select>
+         </div>
+         <div class="mb-3">
+           <label for="exampleFormControlInput1" class="form-label">Priority</label>
+           <select name="priority" class="form-select" aria-label="Default select example">
+             <option value="<?= $currenttask['priority'] ?>" selected><?= $currenttask['priority'] ?></option>
+             <option value="low">low</option>
+             <option value="medium">medium</option>
+             <option value="high">high</option>
            </select>
          </div>
          <div class="mb-3">

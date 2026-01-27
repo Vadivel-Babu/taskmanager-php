@@ -11,12 +11,13 @@ class Task
         $this->db = $database->conn;
     }
 
-    public function getAll($limit, $offset,$status)
+    public function getAll($limit, $offset,$status,$priority)
     {
-        $stmt = $this->db->prepare("SELECT * FROM tasks WHERE status LIKE :status LIMIT :limit OFFSET :offset");
+        $stmt = $this->db->prepare("SELECT * FROM tasks WHERE status LIKE :status AND priority LIKE :priority LIMIT :limit OFFSET :offset");
         $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);    
         $stmt->bindValue(':status',$status);
+        $stmt->bindValue(':priority',$priority);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -46,19 +47,19 @@ class Task
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getTaskCount($status)
+    public function getTaskCount($status,$priority)
     {
-    $stmt = $this->db->prepare("SELECT COUNT(*) FROM tasks WHERE status LIKE :status");
-    $stmt->execute([':status' => $status]);
+    $stmt = $this->db->prepare("SELECT COUNT(*) FROM tasks WHERE status LIKE :status AND priority LIKE :priority");
+    $stmt->execute([':status' => $status,":priority"=>$priority]);
     return $stmt->fetchColumn();
     }
 
-    public function updateTask($title,$description,$assigned,$status,$id)
+    public function updateTask($title,$description,$assigned,$status,$id, $priority)
     {
         $stmt = $this->db->prepare(
-            "UPDATE tasks SET title = :title,description = :description, assigned_to = :assigned, status = :status WHERE id = :id"
+            "UPDATE tasks SET title = :title,description = :description, assigned_to = :assigned, status = :status,priority = :priority WHERE id = :id"
         );
-        $stmt->execute([":title" => $title,":description" => $description,":assigned"=>$assigned,":status"=>$status,":id" => $id]);
+        $stmt->execute([":title" => $title,":description" => $description,":assigned"=>$assigned,":status"=>$status,":priority" => $priority ,":id" => $id]);
         
         return true;
     }

@@ -1,3 +1,10 @@
+<?php
+ $uri = $_SERVER["PHP_SELF"];
+ $uri = explode('/',$uri);
+ $uri = explode('.',$uri[count($uri) - 1])[0];
+
+echo $uri;
+?>
 <aside class="dashboard__sidebar">
   <div class="dashboard__sidebar--top">
     <h2>TM</h2>

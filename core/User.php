@@ -22,9 +22,9 @@ class User
         return false;
       }
       $stmt2 = $this->db->prepare(
-            "INSERT users(name,email,password,role) values (:name,:email,:password,:role)"
+            "INSERT users(name,email,password,role,status) values (:name,:email,:password,:role,:status)"
         );
-      $stmt2->execute([':name' => $name,':email'=>$email,':password'=>$password,':role' => $role]);
+      $stmt2->execute([':name' => $name,':email'=>$email,':password'=>$password,':role' => $role,':status' => 'inactive']);
       return true;
   }
 
@@ -45,10 +45,10 @@ class User
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getUserForDropdown($role)
+  public function getUserForDropdown()
   {
-     $stmt = $this->db->prepare("SELECT * FROM users WHERE role = :role");
-    $stmt->execute([":role" => $role]);
+     $stmt = $this->db->prepare("SELECT * FROM users");
+    $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return $users;
   }
@@ -96,6 +96,17 @@ class User
 
   public function deleteUser($id)
   {
+    $stmt = $this->db->prepare("SELECT * FROM tasks WHERE assigned_to = :id");
+    $stmt->execute([":id"=>$id]);
+    $task = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if($task){
+      $stmt = $this->db->prepare("SELECT * FROM users WHERE role = 'admin'");
+      $stmt->execute();
+      $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+      $stmt2 = $this->db->prepare("UPDATE tasks SET assigned_to = :assigned_id WHERE assigned_to = :id");
+      $stmt2->execute([":assigned_id"=> $admin['id'] , ":id"=> $id]);
+
+    }
     $stmt = $this->db->prepare(
         "DELETE FROM users WHERE id = ?"
     );

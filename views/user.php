@@ -73,7 +73,9 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
                class="badge <?=  $user['status'] === 'active' ? "text-bg-success": "text-bg-danger" ?>"><?= e($user['status']) ?></span>
            </td>
            <td>
+             <?php if($user["role"] === 'user'): ?>
              <button type="button" class="btn btn-danger delete-btn" data-id="<?= $user['id'] ?>">Delete</button>
+             <?php endif; ?>
            </td>
          </tr>
          <?php $no++; ?>

@@ -9,7 +9,7 @@
  exit;
 }
  $users = new User();
- $allUsers = $users->getUserForDropdown('user');
+ $allUsers = $users->getUserForDropdown();
  
  if($_SERVER["REQUEST_METHOD"] === 'POST'){
     

@@ -2,6 +2,9 @@
  include_once __DIR__ . "/../config/config.php";
  include_once __DIR__ . "/partials/header.php";
  include_once __DIR__ . "/../core/User.php";
+ include_once __DIR__ . "/../core/Auth.php";
+
+ Auth::check();
  $error = '';
  if($_SESSION['role'] !== 'admin'){
  header("Location: dashboard.php");

@@ -3,6 +3,9 @@
  include_once __DIR__ . "/partials/header.php";
  include_once __DIR__ . "/../core/Task.php";
  include_once __DIR__ . "/../core/User.php";
+ include_once __DIR__ . "/../core/Auth.php";
+
+ Auth::check();
  $error = '';
  $id = 0;
  $currenttask= '';

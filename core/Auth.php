@@ -11,6 +11,14 @@ class Auth
         $this->db = $database->conn;
     }
 
+    public static function check()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: " . BASE_URL . "public/login.php");
+            exit;
+        }
+    }
+
     public function login($email, $password)
     {
         $stmt = $this->db->prepare(

@@ -2,6 +2,9 @@
  include_once __DIR__ . "/../config/config.php";
  include_once __DIR__ . "/partials/header.php";
  include_once __DIR__ . "/../core/User.php";
+ include_once __DIR__ . "/../core/Auth.php";
+
+ Auth::check();
  $error = '';
  $user = new User();
  $id = $_SESSION['user_id'];

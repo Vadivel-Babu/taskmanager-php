@@ -2,6 +2,9 @@
  include_once __DIR__ . "/../config/config.php";
  include_once __DIR__ . "/partials/header.php";
  include_once __DIR__ . "/../core/Task.php";
+ include_once __DIR__ . "/../core/Auth.php";
+
+ Auth::check();
 
  $tasks = new Task();
  $status = $_GET['status'] ?? '';

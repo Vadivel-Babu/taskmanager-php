@@ -66,7 +66,10 @@
              <option value="user">user</option>
            </select>
          </div>
-         <button type="submit" class="btn btn-dark ">Create User</button>
+         <div class="d-flex justify-content-between">
+           <a role="button" href="user.php" class="card-link btn btn-dark ">Back</a>
+           <button type="submit" class="btn btn-dark">Create User</button>
+         </div>
        </form>
      </div>
    </div>

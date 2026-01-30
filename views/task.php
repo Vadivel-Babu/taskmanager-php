@@ -30,7 +30,7 @@ $totalPages = ceil($totalTasks / $limit);
 <div class="dashboard">
   <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
   <div class="dashboard__content ">
-    <h1 class="text-center"> Task</h1>
+    <h1 class="text-center">All Task</h1>
     <form method="GET" class="row g-2 mb-3 container mx-auto my-0">
       <div class="col-md-4">
         <select name="priority" class="form-select">
@@ -70,7 +70,7 @@ $totalPages = ceil($totalTasks / $limit);
         <?php foreach($alltasks as $task): ?>
         <tr>
           <td scope="row"><?= $no ?></td>
-          <td><?= e($task['title'])  ?></td>
+          <td><a href="taskpage.php?id=<?= $task['id'] ?>" class=""><?= e($task['title']) ?></a></td>
           <td><?= e($task['description']) ?></td>
           <td><span
               class="badge <?= $task['status'] === 'completed' ? "text-bg-success" : "text-bg-warning" ?>"><?= e($task['status']) ?></span>
@@ -112,3 +112,5 @@ $totalPages = ceil($totalTasks / $limit);
     </nav>
   </div>
 </div>
+
+<?php include_once __DIR__ . "/partials/footer.php"; ?>

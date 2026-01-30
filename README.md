@@ -2,8 +2,6 @@
 
 A role-based **Task Management System** built using **Core PHP (OOP)** and **MySQL**, designed to manage users and tasks securely with authentication, authorization, and CSRF protection.
 
-This project demonstrates real-world backend concepts commonly expected from **junior PHP developers**.
-
 ---
 
 ## 🚀 Features
@@ -14,7 +12,8 @@ This project demonstrates real-world backend concepts commonly expected from **j
 - Password hashing
 - CSRF token protection
 - Protected routes
-- Forced logout on session expiry
+- Forced logout on password change
+- xss protection
 
 ### 👥 Role-Based Access Control
 

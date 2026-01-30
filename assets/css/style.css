@@ -63,3 +63,33 @@
   font-weight: bold;
   text-align: center;
 }
+.card__width {
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+@media screen and (max-width: 1000px) {
+  .dashboard {
+    flex-direction: column;
+    height: 100vh;
+  }
+  .dashboard__sidebar {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px 20px;
+  }
+  .dashboard__sidebar--top {
+    display: flex;
+    flex-direction: row;
+  }
+  .dashboard__content {
+    background-color: rgb(61, 83, 102);
+  }
+  .dashboard__sidebar--top > a {
+    font-size: 14px;
+  }
+}

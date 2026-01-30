@@ -67,7 +67,10 @@
              <?php endforeach; ?>
            </select>
          </div>
-         <button type="submit" class="btn btn-dark">Create Task</button>
+         <div class="d-flex justify-content-between">
+           <a role="button" href="task.php" class="card-link btn btn-dark ">Back</a>
+           <button type="submit" class="btn btn-dark">Create Task</button>
+         </div>
        </form>
      </div>
    </div>

@@ -29,7 +29,7 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
  <div class="dashboard">
    <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
    <div class="dashboard__content">
-     <h1 class="text-center"> User</h1>
+     <h1 class="text-center">All User</h1>
      <form method="GET" class="row g-2 mb-3 container mx-auto my-0">
        <div class="col-md-4">
          <select name="role" class="form-select">
@@ -67,7 +67,7 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
          <?php foreach($allusers as $user): ?>
          <tr>
            <th scope="row"><?= $no ?></th>
-           <td><?= e($user['name']) ?></td>
+           <td><a href="userpage.php?id=<?= $user['id'] ?>" class=""><?= e($user['name']) ?></a></td>
            <td><?= e($user['email']) ?></td>
            <td><span
                class="badge <?=  $user['status'] === 'active' ? "text-bg-success": "text-bg-danger" ?>"><?= e($user['status']) ?></span>
@@ -104,3 +104,5 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
      </nav>
    </div>
  </div>
+
+ <?php include_once __DIR__ . "/partials/footer.php"; ?>

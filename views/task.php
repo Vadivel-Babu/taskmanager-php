@@ -15,11 +15,10 @@ $page = max($page, 1);
 $offset = ($page - 1) * $limit;
 $totalTasks = $tasks->getTaskCount($status,$priority);
 $totalPages = ceil($totalTasks / $limit);
- if($_SESSION['role'] == 'admin'){
+ if($_SESSION['role'] === 'admin'){
    $alltasks = $tasks->getAll($limit,$offset,$status,$priority);
  } else {
-  $alltasks = $tasks->getByUser($_SESSION['user_id']);
-  $alltasks = $tasks->getAll($limit, $offset,$status,$priority);
+  $alltasks = $tasks->getByUserWithLimit($_SESSION['user_id'],$limit, $offset,$status,$priority);
  }
 
 
@@ -52,44 +51,47 @@ $totalPages = ceil($totalTasks / $limit);
       </div>
     </form>
     <?php if($alltasks): ?>
-    <table class="table container">
-      <thead>
-        <tr>
-          <th scope="col">No</th>
-          <th scope="col">Title</th>
-          <th scope="col">Description</th>
-          <th scope="col">Status</th>
-          <th scope="col">
-            Priority
-          </th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php $no = 1; ?>
-        <?php foreach($alltasks as $task): ?>
-        <tr>
-          <td scope="row"><?= $no ?></td>
-          <td><a href="taskpage.php?id=<?= $task['id'] ?>" class=""><?= e($task['title']) ?></a></td>
-          <td><?= e($task['description']) ?></td>
-          <td><span
-              class="badge <?= $task['status'] === 'completed' ? "text-bg-success" : "text-bg-warning" ?>"><?= e($task['status']) ?></span>
-          </td>
-          <td>
-            <span
-              class="badge <?= $task['priority'] === 'low' ? "text-bg-success" : ($task['priority'] === 'high' ? "text-bg-danger" :"text-bg-warning") ?>"><?= e($task['priority']) ?></span>
-          </td>
-          <td>
-            <a href="edittask.php?id=<?= $task['id'] ?>" class="btn btn-dark" role="button">Edit</a>
-            <?php if($_SESSION['role'] === 'admin'): ?>
-            <button type="button" class="btn btn-danger delete-task-btn" data-id="<?= $task['id'] ?>">Delete</button>
-            <?php endif; ?>
-          </td>
-        </tr>
-        <?php $no++; ?>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table container">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">
+              Priority
+            </th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php $no = 1; ?>
+          <?php foreach($alltasks as $task): ?>
+          <tr>
+            <td scope="row"><?= $no ?></td>
+            <td><a href="taskpage.php?id=<?= $task['id'] ?>" class=""><?= e($task['title']) ?></a></td>
+            <td><?= e($task['description']) ?></td>
+            <td><span
+                class="badge <?= $task['status'] === 'completed' ? "text-bg-success" : "text-bg-warning" ?>"><?= e($task['status']) ?></span>
+            </td>
+            <td>
+              <span
+                class="badge <?= $task['priority'] === 'low' ? "text-bg-success" : ($task['priority'] === 'high' ? "text-bg-danger" :"text-bg-warning") ?>"><?= e($task['priority']) ?></span>
+            </td>
+            <td>
+              <a href="edittask.php?id=<?= $task['id'] ?>" class="btn btn-dark" role="button">Edit</a>
+              <?php if($_SESSION['role'] === 'admin'): ?>
+              <button type="button" class="btn btn-danger delete-task-btn" data-id="<?= $task['id'] ?>">Delete</button>
+              <?php endif; ?>
+            </td>
+          </tr>
+          <?php $no++; ?>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+
+    </div>
     <?php else: ?>
     <h2 class="text-center my-5">No Task Found</h2>
     <?php endif; ?>

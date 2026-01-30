@@ -52,37 +52,40 @@ $allusers = $user->getAllUsers($limit, $offset,$role,$status);
        </div>
      </form>
      <?php if($allusers): ?>
-     <table class="table container">
-       <thead>
-         <tr>
-           <th scope="col">No</th>
-           <th scope="col">Name</th>
-           <th scope="col">Email</th>
-           <th scope="col">Status</th>
-           <th scope="col">Action</th>
-         </tr>
-       </thead>
-       <tbody>
-         <?php $no = 1; ?>
-         <?php foreach($allusers as $user): ?>
-         <tr>
-           <th scope="row"><?= $no ?></th>
-           <td><a href="userpage.php?id=<?= $user['id'] ?>" class=""><?= e($user['name']) ?></a></td>
-           <td><?= e($user['email']) ?></td>
-           <td><span
-               class="badge <?=  $user['status'] === 'active' ? "text-bg-success": "text-bg-danger" ?>"><?= e($user['status']) ?></span>
-           </td>
-           <td>
-             <?php if($user["role"] === 'user'): ?>
-             <button type="button" class="btn btn-danger delete-btn" data-id="<?= $user['id'] ?>">Delete</button>
-             <?php endif; ?>
-           </td>
-         </tr>
-         <?php $no++; ?>
-         <?php endforeach; ?>
+     <div class="table-responsive">
+       <table class="table container">
+         <thead>
+           <tr>
+             <th scope="col">No</th>
+             <th scope="col">Name</th>
+             <th scope="col">Email</th>
+             <th scope="col">Status</th>
+             <th scope="col">Action</th>
+           </tr>
+         </thead>
+         <tbody>
+           <?php $no = 1; ?>
+           <?php foreach($allusers as $user): ?>
+           <tr>
+             <th scope="row"><?= $no ?></th>
+             <td><a href="userpage.php?id=<?= $user['id'] ?>" class=""><?= e($user['name']) ?></a></td>
+             <td><?= e($user['email']) ?></td>
+             <td><span
+                 class="badge <?=  $user['status'] === 'active' ? "text-bg-success": "text-bg-danger" ?>"><?= e($user['status']) ?></span>
+             </td>
+             <td>
+               <?php if($user["role"] === 'user'): ?>
+               <button type="button" class="btn btn-danger delete-btn" data-id="<?= $user['id'] ?>">Delete</button>
+               <?php endif; ?>
+             </td>
+           </tr>
+           <?php $no++; ?>
+           <?php endforeach; ?>
 
-       </tbody>
-     </table>
+         </tbody>
+       </table>
+
+     </div>
      <?php else: ?>
      <h2 class="text-center my-5">User Not Found</h2>
      <?php endif; ?>

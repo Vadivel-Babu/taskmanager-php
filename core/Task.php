@@ -38,6 +38,18 @@ class Task
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getByUserWithLimit($userId,$limit, $offset,$status,$priority)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM tasks WHERE assigned_to = :userId AND  status LIKE :status AND priority LIKE :priority LIMIT :limit OFFSET :offset");
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);    
+        $stmt->bindValue(':status',$status);
+        $stmt->bindValue(':priority',$priority);
+         $stmt->bindValue(':userId',$userId);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getTask($taskId)
     {
         $stmt = $this->db->prepare(
@@ -49,9 +61,16 @@ class Task
 
     public function getTaskCount($status,$priority)
     {
-    $stmt = $this->db->prepare("SELECT COUNT(*) FROM tasks WHERE status LIKE :status AND priority LIKE :priority");
-    $stmt->execute([':status' => $status,":priority"=>$priority]);
-    return $stmt->fetchColumn();
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM tasks WHERE status LIKE :status AND priority LIKE :priority");
+        $stmt->execute([':status' => $status,":priority"=>$priority]);
+        return $stmt->fetchColumn();
+    }
+
+    public function getTaskCountByuser($status,$id)
+    {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM tasks WHERE status LIKE :status AND assigned_to = :id");
+        $stmt->execute([':status' => $status,":id" => $id]);
+        return $stmt->fetchColumn();
     }
 
     public function updateTask($title,$description,$assigned,$status,$id, $priority)

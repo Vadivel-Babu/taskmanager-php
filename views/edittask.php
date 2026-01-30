@@ -57,13 +57,15 @@ if(isset($_GET['id'])){
          <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Title</label>
-           <input type="text" name="title" value="<?= $currenttask["title"] ?>" class="form-control"
-             id="exampleFormControlInput1" placeholder="title">
+           <input type="text" name="title" <?= $_SESSION['role'] === 'user' ? 'readonly' : ''  ?>
+             value="<?= $currenttask["title"] ?>" class="form-control" id="exampleFormControlInput1"
+             placeholder="title">
          </div>
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Description</label>
-           <input type="text" name="description" value="<?= $currenttask["description"] ?>" class="form-control"
-             id="exampleFormControlInput1" placeholder="description ...">
+           <input type="text" name="description" <?= $_SESSION['role'] === 'user' ? 'readonly' : ''  ?>
+             value="<?= $currenttask["description"] ?>" class="form-control" id="exampleFormControlInput1"
+             placeholder="description ...">
          </div>
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Status</label>
@@ -86,17 +88,21 @@ if(isset($_GET['id'])){
              <option value="high">high</option>
            </select>
          </div>
+
          <div class="mb-3">
            <label for="exampleFormControlInput1" class="form-label">Assigned</label>
            <select name="assigned" class="form-select" aria-label="Default select example">
              <option value="<?= $currentuser['id'] ?>" selected><?= $currentuser['name'] ?></option>
+             <?php if($_SESSION['role'] === 'admin'):  ?>
              <?php foreach($allUsers as $user): ?>
              <?php if($user["id"] !== $currentuser['id']): ?>
              <option value="<?= $user['id'] ?>"><?= $user['name'] ?></option>
              <?php endif; ?>
              <?php endforeach; ?>
+             <?php endif; ?>
            </select>
          </div>
+
          <button type="submit" class="btn btn-warning">Update Task</button>
        </form>
      </div>

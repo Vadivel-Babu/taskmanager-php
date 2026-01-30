@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  //handle ajax for delete user and task
   document.addEventListener("click", function (e) {
     if (e.target.classList.contains("delete-btn")) {
       const userId = e.target.dataset.id;
@@ -41,5 +42,23 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         });
     }
+  });
+
+  // handler for menu
+  const menu = document.querySelector(".menu_content");
+  const openBtn = document.querySelector(".menu");
+  const closeBtn = document.querySelector(".btn-close");
+  const links = document.querySelectorAll(".nav-link");
+
+  function handleOpenMenu() {
+    menu.style.display = "block";
+  }
+  function handleCloseMenu() {
+    menu.style.display = "none";
+  }
+  closeBtn.addEventListener("click", handleCloseMenu);
+  openBtn.addEventListener("click", handleOpenMenu);
+  links.forEach((l) => {
+    l.addEventListener("click", handleCloseMenu);
   });
 });

@@ -30,7 +30,7 @@ $totalPages = ceil($totalActiveUsers / $limit);
    <?php include_once __DIR__ ."/partials/sidebar.php";  ?>
    <div class="dashboard__content ">
      <h1 class="text-center"> Welcome <?= $_SESSION['user_name']; ?></h1>
-     <div class="container">
+     <div class="container-lg">
        <div class="stats">
          <div class="stat_card">
            <p>Total No of Task:</p>

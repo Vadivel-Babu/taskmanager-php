@@ -51,3 +51,10 @@ A role-based **Task Management System** built using **Core PHP (OOP)** and **MyS
 - **AJAX**
 - **Prepared Statements** (SQL Injection protection)
 - **Bootstrap**
+
+## credentials
+
+- admin: admin@mail.com
+- admin password: admin
+- user: user@mail.com
+- user: user

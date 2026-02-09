@@ -29,7 +29,7 @@ if($_SESSION['role'] === 'admin'){
  $allusers = $user->getAllUsers($limit, $offset,$role,$userStatus);
  $totalUsers = $user->getUserCount($role,$status);
  $totalActiveUsers = $user->getUserCount($role,$userStatus);
- $totalTasks = $task->getTaskCount($taskStatus,$priority);
+ $totalTasks = $task->getTaskCount($taskStatus,$priority,$_SESSION['user_id']);
 } else{
   $totalTasks = count($task->getByUser($_SESSION['user_id']));
   $totalPendingTask = $task->getTaskCountByuser('pending',$_SESSION['user_id']);

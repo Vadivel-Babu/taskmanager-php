@@ -16,7 +16,7 @@ $limit = 5;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $page = max($page, 1);
 $offset = ($page - 1) * $limit;
-$totalTasks = $tasks->getTaskCount($status,$priority);
+$totalTasks = $tasks->getTaskCount($status,$priority,$_SESSION['user_id']);
 $totalPages = ceil($totalTasks / $limit);
  if($_SESSION['role'] === 'admin'){
    $alltasks = $tasks->getAll($limit,$offset,$status,$priority);

@@ -59,11 +59,18 @@ class Task
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getTaskCount($status,$priority)
-    {
+    public function getTaskCount($status,$priority,$userId)
+    { 
+        if($_SESSION['role'] === 'user')
+        {
+          $stmt = $this->db->prepare("SELECT COUNT(*) FROM tasks WHERE status LIKE :status AND priority LIKE :priority AND assigned_to = :id");
+          $stmt->execute([':status' => $status,":priority"=>$priority,":id" => $userId]);
+          return $stmt->fetchColumn();
+        }
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM tasks WHERE status LIKE :status AND priority LIKE :priority");
         $stmt->execute([':status' => $status,":priority"=>$priority]);
         return $stmt->fetchColumn();
+       
     }
 
     public function getTaskCountByuser($status,$id)
